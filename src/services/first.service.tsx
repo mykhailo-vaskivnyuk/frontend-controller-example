@@ -15,9 +15,10 @@ export class FirstService extends Store<IFirstState> {
   async init() {
     await delay(1000);
     this.setState({ status: 'READY' });
-    this.app.secondService.subscribe((state) => {
-      this.setState({ outFirst: state.inSecond })
-    }, ['inSecond'])
+    this.app.secondService.subscribe(
+      (state) => this.setState({ outFirst: state.inSecond }),
+      ['inSecond'],
+    );
   }
   
   firstMethod() {

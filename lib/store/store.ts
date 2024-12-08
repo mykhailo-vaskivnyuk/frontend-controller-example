@@ -27,16 +27,11 @@ export class Store<
 
   protected timer?: number;
 
-  public Error = createErrorClass<ErrorKey>();
-
   constructor(
     protected initialState: State,
-    Error: ErrorClass<ErrorKey> | ServiceErrorClass<ErrorKey> | null = null,
+    public Error: ErrorClass<ErrorKey> | ServiceErrorClass<ErrorKey> = createErrorClass<ErrorKey>(),
     protected initialStatus: StoreStatusKey<StatusKey> = 'READY',
   ) {
-    if (Error) {
-      this.Error = Error;
-    }
     this.$state = { ...this.initialState };
     this.status = initialStatus;
   }

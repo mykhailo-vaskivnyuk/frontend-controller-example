@@ -14,4 +14,4 @@ export const FirstComponent = () => {
       <button onClick={() => app.firstService.firstMethod()}>set inFirst</button>
     </div>
   );
-}
+};

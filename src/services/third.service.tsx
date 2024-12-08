@@ -15,13 +15,14 @@ export class ThirdService extends Store<IThirdState> {
   async init() {
     await delay(1000);
     this.setState({ status: 'READY' });
-    this.subscribe(async (state) => {
-      this.setState({ outThird: state.inThird });
-    }, ['inThird']);
+    this.subscribe(
+      (s) => this.setState({ outThird: s.inThird }),
+      ['inThird'],
+    );
   }
   
   thirdMethod() {
     console.log('third method');
-    this.setState({ inThird: ++this.$state.inThird })
+    this.setState({ inThird: ++this.$state.inThird });
   }
 }

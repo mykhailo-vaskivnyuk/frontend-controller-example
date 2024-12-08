@@ -6,4 +6,4 @@ export const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
   }
-}, { name: 'First' });
+}, { name: 'New' });

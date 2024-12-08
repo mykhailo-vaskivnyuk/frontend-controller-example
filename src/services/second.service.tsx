@@ -15,13 +15,14 @@ export class SecondService extends Store<ISecondState> {
   async init() {
     await delay(1000);
     this.setState({ status: 'READY' });
-    this.app.firstService.subscribe((state) => {
-      this.setState({ outSecond: state.inFirst })
-    }, ['inFirst'])
+    this.app.firstService.subscribe(
+      (s) => this.setState({ outSecond: s.inFirst }),
+      ['inFirst'],
+    );
   }
   
   secondMethod() {
     console.log('second method');
-    this.setState({ inSecond: ++this.$state.inSecond })
+    this.setState({ inSecond: ++this.$state.inSecond });
   }
 }

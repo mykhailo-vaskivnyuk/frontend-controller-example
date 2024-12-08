@@ -18,7 +18,7 @@ export const createStoreFactory = <T extends Store>(Class: { new(...args: any[])
       stores.set(key, s);
     }
     return s;
-  }
+  };
   
   const useStore = (key: string, ...params: ConstructorParameters<typeof Class>): T => {
     const [store] = useState(() => createStore(key, ...params));
@@ -32,11 +32,11 @@ export const createStoreFactory = <T extends Store>(Class: { new(...args: any[])
     }, [key, store]);
 
     return store;
-  }
+  };
 
   const getStore = (key: string): T => {
     return stores.get(key);
-  }
+  };
 
   return { useStore, getStore };
 };

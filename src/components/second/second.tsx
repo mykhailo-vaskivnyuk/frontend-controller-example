@@ -14,4 +14,4 @@ export const SecondComponent = () => {
       <button onClick={() => app.secondService.secondMethod()}>set inSecond</button>
     </div>
   );
-}
+};

@@ -14,15 +14,14 @@ export class Pagination extends Store<IPaginationState> {
   }
 
   setState(state: Partial<IPaginationState>) {
-    this.$state = Object.assign(this.$state, state);
+    Object.assign(this.$state, state);
     const params = {} as IPaginationState;
     params.page = this.getPage();
     params.pageCount = this.getPageCount();
     params.range = this.getRange();
     params.isFirstPage = this.isFirstPage();
     params.isLastPage = this.isLastPage();
-    Object.assign(this.$state, params);
-    super.setState(this.$state);
+    super.setState(params);
   }
 
   setTotal(total: number) {
