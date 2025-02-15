@@ -36,6 +36,7 @@ export class Store<
     this.status = initialStatus;
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async init() {
     this.debug('Init method is not implemented');
   }
@@ -84,15 +85,14 @@ export class Store<
   }
 
   subscribe(
-    cb: (state: FullState) => void,
+    cb: (state: FullState) => unknown,
     keys: (keyof FullState)[] = [],
     as: AbortSignal | null = null,
     emitStateOnInit = false,
   ) {
     let curState = this.state;
 
-    const handler = () => {
-      const newState = this.state;
+    const handler = (newState: FullState) => {
       const changed = isChanged(keys, curState, newState);
       curState = newState;
       if (changed) cb(curState);
@@ -125,8 +125,7 @@ export class Store<
     useEffect(() => {
       let curStatusProps = this.statusProps;
 
-      const handler = () => {
-        const newStatusProps = this.statusProps;
+      const handler = (newStatusProps: IStatusProps<StatusKey, ErrorKey>) => {
         const changed = isChanged(keys, curStatusProps, newStatusProps);
         curStatusProps = newStatusProps;
         if (changed) setState(curStatusProps);
@@ -234,7 +233,7 @@ export class Store<
     const key = this.constructor.name;
     try {
       const stateSerialized = localStorage.getItem(key);
-      return JSON.parse(stateSerialized || '{}');
+      return JSON.parse(stateSerialized || '{}') as FullState;
     } catch {
       return {} as FullState;
     }

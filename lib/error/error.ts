@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorKey } from './error.types';
 
 export const createErrorClass = <T extends string>() => {
@@ -11,9 +10,8 @@ export const createErrorClass = <T extends string>() => {
       return new ErrorClass(key, { cause: e });
     }
 
-    constructor(public key: ErrorKey<T>, ...props: any[]) {
-      // @ts-expect-error spread not allowed
-      super(key, ...props);
+    constructor(public key: ErrorKey<T>  = 'UNKNOWN', options: Parameters<ErrorConstructor>[1]) {
+      super(key, options);
     }
   };
 };

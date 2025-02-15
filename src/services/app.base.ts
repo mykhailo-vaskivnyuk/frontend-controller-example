@@ -15,7 +15,7 @@ export class AppBase extends Store implements IAppBase {
   thirdService: ThirdService = new ThirdService({ inThird: 0, outThird: 0 }, this);
 
   constructor() {
-    super({}, null, 'INIT');
+    super({}, undefined, 'INIT');
   }
   
   async init() {

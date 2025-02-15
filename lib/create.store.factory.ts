@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Store } from "@lib/store/store";
 import { useEffect, useState } from "react";
@@ -12,7 +13,7 @@ export const createStoreFactory = <T extends Store>(Class: { new(...args: any[])
   }
 
   const createStore = (key: string, ...params: ConstructorParameters<typeof Class>) => {
-    let s  = stores.get(key);
+    let s  = stores.get(key) as T | undefined;
     if (!s) {
       s = new Class(...params);
       stores.set(key, s);
@@ -24,7 +25,7 @@ export const createStoreFactory = <T extends Store>(Class: { new(...args: any[])
     const [store] = useState(() => createStore(key, ...params));
 
     useEffect(() => {
-      store.init();
+      store.init().catch(() => {});
       return () => {
         stores.delete(key);
         store.dispose();
@@ -34,8 +35,8 @@ export const createStoreFactory = <T extends Store>(Class: { new(...args: any[])
     return store;
   };
 
-  const getStore = (key: string): T => {
-    return stores.get(key);
+  const getStore = (key: string): T | undefined => {
+    return stores.get(key) as T | undefined;
   };
 
   return { useStore, getStore };

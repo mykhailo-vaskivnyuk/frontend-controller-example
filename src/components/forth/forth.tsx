@@ -6,7 +6,7 @@ export const ForthComponent: FC<{ id: string }> = ({ id }) => {
   const { root } = useStyles();
   const app = useAppContext();
   app.forth.useStore(id, { inForth: 0, outForth: 0 }, app);
-  const forthService = app.forth.getStore(id);
+  const forthService = app.forth.getStore(id)!;
   const { status, inForth, outForth } = forthService.useState(['status', 'inForth', 'outForth']);
 
   useEffect(() => {

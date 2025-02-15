@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class EventEmitter {
-  private events: Record<string, ((data: unknown) => void)[]> = {};
+  private events: Record<string, ((data: any) => void)[]> = {};
 
-  on(event: string, cb: (data: unknown) => void) {
+  on(event: string, cb: (data: any) => void) {
     const events = this.events[event];
     if (events) {
       events.push(cb);
@@ -11,7 +12,7 @@ export class EventEmitter {
     return () => this.off(event, cb);
   }
 
-  off(event: string, cb: (data: unknown) => void) {
+  off(event: string, cb: (data: any) => void) {
     const handlers = this.events[event];
     if (!handlers) {
       return;
@@ -19,12 +20,12 @@ export class EventEmitter {
     this.events[event] = handlers.filter((handler) => handler !== cb);
   }
 
-  emit(event: string, data: unknown) {
+  emit(event: string, data: any) {
     const handlers = this.events[event] || [];
     handlers.forEach((handler) => handler(data));
   }
 
-  once(event: string, cb: (data: unknown) => void) {
+  once(event: string, cb: (data: any) => void) {
     const onceCb: typeof cb = (data) => {
       this.off(event, onceCb);
       cb(data);

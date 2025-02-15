@@ -12,7 +12,7 @@ export const App = () => {
   const { status } = app.useState(['status']);
 
   useEffect(() => {
-    app.init();
+    app.init().catch((() => {}));
   }, [app]);
 
   if (status !== 'READY') {

@@ -1,14 +1,15 @@
 import { Store } from '@lib/store/store';
+import { delay } from '@lib/utils';
 import { IAppBase } from './app.base';
 
 interface INewState {
-  data: unknown;
+  data: Record<string, string>;
   count: number;
 }
 
 export class NewService extends Store<INewState> {
   constructor(protected app: IAppBase) {
-    super({ data: {}, count: 0 }, undefined, 'INIT');
+    super({ data: {}, count: 0 });
   }
 
   async init() {
@@ -17,14 +18,19 @@ export class NewService extends Store<INewState> {
       ['inFirst'],
     );
     this.subscribe(
-      () => this.setState({ count: this.$state.count + 1 }),
+      async () => {
+        await delay(0);
+        this.setState({ count: this.$state.count + 1 });
+      },
       ['data'],
     );
+    await delay(0);
   }
   
   getData(value: number) {
     fetch(`https://jsonplaceholder.typicode.com/todos/${value}`)
       .then(response => response.json())
-      .then((data) => this.setState({ data }));
+      .then((data: Record<string, string>) => this.setState({ data }))
+      .catch(console.log);
   }
 }

@@ -18,15 +18,11 @@ export const toConsole = (instance: object, ...args: any[]) => {
     return;
   }
   const instanceOf = instance.constructor.name;
-  const [toLog] = args;
-  let log = '';
-  if (typeof toLog === 'string') {
-    log = args.shift();
+  if (typeof args[0] === 'function') {
+    args[0] = (args[0] as () => any).name;
   }
-  if (typeof toLog === 'function') {
-    log = args.shift().name;
-  }
-  console.log('%c %s %c %s', STYLE.whiteBlack, instanceOf, STYLE.grayOrange, log, ...args);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  console.log('%c %s %c %s', STYLE.whiteBlack, instanceOf, STYLE.grayOrange, ...args);
 };
 
 export const delay = (timeout: number) => {

@@ -16,7 +16,10 @@ export class ThirdService extends Store<IThirdState> {
     await delay(1000);
     this.setState({ status: 'READY' });
     this.subscribe(
-      (s) => this.setState({ outThird: s.inThird }),
+      async (s) => {
+        await delay(0);
+        this.setState({ outThird: s.inThird });
+      },
       ['inThird'],
     );
   }
