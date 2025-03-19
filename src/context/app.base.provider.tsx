@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { FC, PropsWithChildren } from 'react';
-import { AppBase } from './app.base';
+import { AppBase } from '../services/app.base';
 import { AppBaseContextProvider } from './app.base.context';
 
 export const appBase = new AppBase();

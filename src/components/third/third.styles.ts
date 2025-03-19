@@ -18,4 +18,9 @@ export const useStyles = createUseStyles({
       gap: 10,
     },
   },
+  value: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
 }, { name: 'Third' });

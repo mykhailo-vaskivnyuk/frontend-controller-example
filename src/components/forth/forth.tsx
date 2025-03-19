@@ -1,9 +1,9 @@
 import { FC, useEffect } from 'react';
-import { useAppContext } from '../../services/app.provider';
+import { useAppContext } from '../../context/app.provider';
 import { useStyles } from './forth.styles';
 
 export const ForthComponent: FC<{ id: string }> = ({ id }) => {
-  const { root } = useStyles();
+  const { root, value } = useStyles();
   const app = useAppContext();
   app.forth.useStore(id, { inForth: 0, outForth: 0 }, app);
   const forthService = app.forth.getStore(id)!;
@@ -25,8 +25,8 @@ export const ForthComponent: FC<{ id: string }> = ({ id }) => {
     <div className={root}>
       <div>FORTH COMPONENT</div>
       <div>{status}</div>
-      <div>{inForth}</div>
-      <div>{outForth}</div>
+      <div className={value}>{inForth}</div>
+      <div className={value}>{outForth}</div>
       <button onClick={() => forthService.forthMethod()}>set inForth</button>
     </div>
   );

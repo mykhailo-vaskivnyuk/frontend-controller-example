@@ -5,5 +5,10 @@ export const useStyles = createUseStyles({
     background: '#55bb55',
     display: 'flex',
     flexDirection: 'column',
-  }
+  },
+  value: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
 }, { name: 'Second' });

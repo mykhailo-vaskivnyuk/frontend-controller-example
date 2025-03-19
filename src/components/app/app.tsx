@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useStyles } from "./app.styles"
-import { useAppContext } from "../../services/app.provider";
+import { useAppContext } from "../../context/app.provider";
 import { FirstComponent } from "../first/first"
 import { SecondComponent } from "../second/second";
 import { ThirdComponent } from "../third/third";

@@ -13,10 +13,12 @@ export class NewService extends Store<INewState> {
   }
 
   async init() {
+
     this.app.firstService.subscribe(
       (s) => this.getData(s.inFirst),
       ['inFirst'],
     );
+
     this.subscribe(
       async () => {
         await delay(0);
@@ -24,6 +26,7 @@ export class NewService extends Store<INewState> {
       },
       ['data'],
     );
+    
     await delay(0);
   }
   

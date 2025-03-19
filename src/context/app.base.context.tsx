@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from 'react';
-import { AppBase } from './app.base';
+import { AppBase } from '../services/app.base';
 
 const appBaseContext = createContext({});
 export const AppBaseContextProvider = appBaseContext.Provider;

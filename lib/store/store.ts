@@ -6,6 +6,7 @@ import { createErrorClass, ErrorClass, ErrorInstance } from '@lib/error/error';
 import { ServiceErrorClass, ServiceErrorInstance } from '@lib/error/service.error';
 import { isChanged, toConsole } from '@lib/utils';
 import { IStatusProps, IFullState, StoreStatusKey } from './store.types';
+import { StoreIterator } from './store.iterator';
 
 export class Store<
   State extends object = object,
@@ -86,7 +87,7 @@ export class Store<
 
   subscribe(
     cb: (state: FullState) => unknown,
-    keys: (keyof FullState)[] = [],
+    keys: (keyof this['state'])[] = [],
     as: AbortSignal | null = null,
     emitStateOnInit = false,
   ) {
@@ -137,50 +138,18 @@ export class Store<
     return state as IStatusProps<StatusKey, ErrorKey>;
   }
 
-  async *getIterator(
+  getIterable(
     keys: (keyof FullState)[] = [],
     as?: AbortSignal,
     emitStateOnInit = false,
-  ): AsyncGenerator<FullState> {
-    let resolve: ((state: FullState) => void) | undefined;
-    const setResolve = (rv: (state: FullState) => void) => {
-      resolve = (state: FullState) => {
-        resolve = undefined;
-        rv(state);
-      };
-    };
-
-    const eventQueue: FullState[] = [];
-    const onState = (newState: FullState) => {
-      if (resolve) {
-        resolve(newState);
-      } else {
-        eventQueue.push(newState);
+  ): AsyncIterable<FullState, undefined> {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const store = this;
+    return {
+      [Symbol.asyncIterator]() {
+        return new StoreIterator(store, keys, as, emitStateOnInit)
       }
-    };
-    const off = this.subscribe(onState, keys, as, emitStateOnInit);
-
-    let aborted = false;
-    const onAbort = () => {
-      aborted = true;
-      off();
-      resolve?.({} as FullState);
-    };
-    this.ac?.signal.addEventListener('abort', onAbort);
-    as?.addEventListener('abort', onAbort);
-
-    do {
-      let newState = eventQueue.shift();
-      if (newState) {
-        yield newState;
-      } else {
-        newState = await new Promise(setResolve);
-        if (aborted) {
-          return;
-        }
-        yield newState;
-      }
-    } while (!aborted);
+    }
   }
 
   useLoading(startDelay?: number, stopDelay?: number) {
